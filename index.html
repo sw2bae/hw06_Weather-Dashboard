@@ -12,41 +12,40 @@
 
 <body>
 
-  <!-- <nav id="navbar navbar-light bg-light">
-    <a id="navbar-brand">WEATHER</a>
-    <form id="form-inline">
-      <input id="form-control mr-sm-2" type="search" placeholder="Search for a City" aria-label="Search">
-      <button id="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  <nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand">WEATHER DASH</a>
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search for a City" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" id="submit" type="submit">Search</button>
     </form>
   </nav>
 
-  <div id="row">
-    <div id="col-3">
-      <div id="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a id="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
-          aria-controls="v-pills-home" aria-selected="true">Home</a>
-        <a id="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
-          aria-controls="v-pills-profile" aria-selected="false">Profile</a>
-        <a id="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
-          aria-controls="v-pills-messages" aria-selected="false">Messages</a>
-        <a id="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab"
-          aria-controls="v-pills-settings" aria-selected="false">Settings</a>
-      </div>
-    </div>
-    <div id="col-9">
-      <div id="tab-content" id="v-pills-tabContent">
-        <div id="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">...
-        </div>
-        <div id="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">...</div>
-        <div id="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">...
-        </div>
-        <div id="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">...
-        </div>
-      </div>
-    </div>
-  </div> -->
 
 
+  <div class="row">
+    <div class="col-3">
+      <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+
+       
+     
+      </div>
+    </div>
+
+
+
+    <div class="col-9">
+      <div class="tab-content" id="v-pills-tabContent">
+
+        <!-- <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">A
+        </div>
+        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">B</div> -->
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 
 
   <div id="city"></div>
   <div id="temp"></div>
@@ -54,7 +53,7 @@
   <div id="wind"></div>
 
   <div id="lon_lat"></div>
-  <div id="forcast"></div>
+  <div id="forcast"></div> -->
 
 
 
@@ -70,60 +69,66 @@
   <script type="text/javascript">
 
 
-    $(document).ready(function (event) {
 
-      var userInput = prompt("City : ");
+
+
+
+    var cityArray = [];
+
+
+
+
+
+    function renderBtn() {
+
+      $("#v-pills-tab").empty();
+      for (var i = 0; i < cityArray.length; i++) {
+
+        var cityBtn = $("<button>");
+        cityBtn
+          .addClass("nav-link active")
+          .attr("id",cityArray[i])
+          .text(cityArray[i])
+          .appendTo($("#v-pills-tab"));
+      
+
+
+      }
+    }
+
+    $("#submit").on("click", function (event) {
+      event.preventDefault();
+      var cityInput = $("#search").val().trim();
       var apiKey = "443955fb6787f379caecf22f8c6f2f2e";
-      var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + userInput + "&units=imperial&appid=" + apiKey;
-      
+      var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&units=imperial&appid=" + apiKey;
 
-      
       $.ajax({
 
         url: queryURL,
         method: 'GET'
 
       }).then(function (res) {
-
-
         console.log(res);
-        $("#city").text("City : " + res.name);
-        $("#wind").text("Wind : " + res.wind.speed + "MPH");
-        $("#humidity").text("Humidity : " + res.main.humidity + "%");
-        $("#temp").text("Temperature : " + res.main.temp+"F");
-        $("#lon_lat").text("Lon & Lat : " + res.coord.lon + " , " + res.coord.lat);
-
-        var lon = res.coord.lon;
-        var lat = res.coord.lat;
-        var apiKey = "443955fb6787f379caecf22f8c6f2f2e";
-        var forcastqueryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + apiKey;
-
-        $.ajax({
-
-          url: forcastqueryURL,
-          method: 'GET'
-
-        }).then(function (res) {
-
-
-          console.log(res);
-
-          for (var i = 0 ; i < 5 ; i++)
-          $("<div>").text("Day +"+i+" : " + JSON.stringify(res.daily[i]))
-                    .attr("id","forcastDay"+i)
-                    .appendTo($("#forcast"));
-
-
-
-        });
+        console.log(typeof(res.name));
+        var city = res.name;
+        cityArray.unshift(city);
+        console.log(cityArray);
+        renderBtn();
       });
 
 
 
-
+        renderBtn();
 
 
     });
+
+
+
+
+
+
+
   </script>
 </body>
 
