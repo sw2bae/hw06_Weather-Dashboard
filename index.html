@@ -16,7 +16,7 @@
     <a class="navbar-brand">WEATHER DASH</a>
     <form class="form-inline">
       <input class="form-control mr-sm-2" id="search" type="search" placeholder="Search for a City" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" id="submit" type="submit">Search</button>
+      <button class="btn btn-outline-primary my-2 my-sm-0" id="submit" type="submit">Search</button>
     </form>
   </nav>
 
@@ -30,106 +30,16 @@
     <div class="col-9">
       <div class="tab-content" id="v-pills-tabContent">
       </div>
+
+      <div class="row" id="forecast">
     </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <!-- <script src="./script.js"></script> -->
-  <script type="text/javascript">
-
-    var cityArray = [];
-
-    function renderBtn() {
-
-      $("#v-pills-tab").empty();
-      for (var i = 0; i < cityArray.length; i++) {
-
-        var cityBtn = $("<button>");
-        cityBtn
-          .addClass("nav-link active")
-          .attr("id", cityArray[i])
-          .text(cityArray[i])
-          .appendTo($("#v-pills-tab"));
-      }
-    }
-
-    $("#submit").on("click", function (event) {
-      event.preventDefault();
-
-      displayWeather();
-    });
-
-    function displayWeather() {
-      var cityInput = $("#search").val().trim();
-      var apiKey = "443955fb6787f379caecf22f8c6f2f2e";
-      var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&units=imperial&appid=" + apiKey;
-
-      $.ajax({
-
-        url: queryURL,
-        method: 'GET'
-
-      }).then(function (res) {
-        console.log(res);
-        console.log(typeof (res.name));
-        var city = res.name;
-        cityArray.unshift(city);
-        console.log(cityArray);
-        renderBtn();
-
-        var cityInfo = $("<h1>");
-        cityInfo.text(res.name)
-          .appendTo($(".tab-content"));
-
-        var tempInfo = $("<div>");
-        tempInfo.text("Temperature : " + res.main.temp + " °F")
-          .appendTo($(".tab-content"));
-
-        var humidityInfo = $("<div>");
-        humidityInfo.text("Humidity : " + res.main.humidity + " %")
-          .appendTo($(".tab-content"));
-
-        var windInfo = $("<div>");
-        windInfo.text("Wind Speed : " + res.wind.speed + " MPH")
-          .appendTo($(".tab-content"));
-
-        var lon = res.coord.lon;
-        var lat = res.coord.lat;
-
-        var forcastqueryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + apiKey;
-
-        $.ajax({
-
-          url: forcastqueryURL,
-          method: 'GET'
-
-        }).then(function (res) {
-
-          console.log(res);
-
-          var uvIndex = $("<div>");
-          uvIndex.text("UV Index : " + res.current.uvi)
-            .appendTo($(".tab-content"));
-
-          for (var i = 0; i < 5; i++) {
-            $("<div>").text("Day +" + i + " : " + JSON.stringify(res.daily[i]))
-              .attr("id", "forcastDay" + i)
-              .appendTo($(".tab-content"));
-
-          }
-
-        });
-      });
-
-
-
-    }
-
-
-
-  </script>
+  <script src="./script.js"></script>
+ 
 </body>
 
 </html>
