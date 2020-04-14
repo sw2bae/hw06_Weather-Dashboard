@@ -83,8 +83,21 @@ function displayWeather() {
                 .appendTo($(".tab-content"));
 
             var uvIndex = $("<p>");
-            uvIndex.text("UV Index : " + res.current.uvi)
+            
+            uvIndex.text("UV Index : ")
                 .appendTo($(".tab-content"));
+            $("<span>").text(res.current.uvi)
+                    .attr("id","uv")
+                    .appendTo(uvIndex);
+
+            if (res.current.uvi >=8){
+                $("#uv").addClass("rounded text-white bg-danger");
+            }else if (res.current.uvi<=5){
+                $("#uv").addClass("rounded text-white bg-success");
+            }else{
+                $("#uv").addClass("rounded text-white bg-warning");
+            }
+        
 
             $("<hr>").appendTo($(".tab-content"));
             $("<h4>").text("5-Day Forecast : ")
