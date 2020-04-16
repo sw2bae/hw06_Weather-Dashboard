@@ -3,7 +3,6 @@
 var cityArray = JSON.parse(localStorage.getItem("data"));
 
 // otherwise, start from empty Array
-otherwise, 
 if (cityArray == null) {
     var cityArray = [];
 } else {
