@@ -1,11 +1,16 @@
+
+// Returning Data from localStorage if there is any, and display the last choice from user
 var cityArray = JSON.parse(localStorage.getItem("data"));
 
+// otherwise, start from empty Array
+otherwise, 
 if (cityArray == null) {
     var cityArray = [];
 } else {
     displayWeather(cityArray[0]);
 }
 
+// Creating Btn
 function renderBtn() {
 
     $("#v-pills-tab").empty();
@@ -22,12 +27,14 @@ function renderBtn() {
     }
 }
 
+// search by user
 $("#submit").on("click", function (event) {
     event.preventDefault();
     var userInput = $("#search").val().trim();
     displayWeather(userInput);
 });
 
+// Click the btn
 $(document).on("click", "#city-Btn", practice);
 
 function practice(event) {
@@ -37,6 +44,7 @@ function practice(event) {
 
 }
 
+// display the current weather info / 5 days forecast info
 function displayWeather(cityInput) {
 
     var apiKey = "443955fb6787f379caecf22f8c6f2f2e";
@@ -51,6 +59,7 @@ function displayWeather(cityInput) {
 
         var city = res.name;
 
+        // add cities on the Array
         cityArray.unshift(city);
         cityArray = Array.from(new Set(cityArray));
         localStorage.setItem("data", JSON.stringify(cityArray));
@@ -59,6 +68,7 @@ function displayWeather(cityInput) {
         $(".tab-content").empty();
         $("#forecast").empty();
 
+        // getting lat/lon for forecast API
         var lon = res.coord.lon;
         var lat = res.coord.lat;
 
@@ -70,7 +80,7 @@ function displayWeather(cityInput) {
             method: 'GET'
 
         }).then(function (res) {
-
+            // actual displayWeather info on HTML
             var cityInfo = $("<h1>");
             var iconURL = "http://openweathermap.org/img/wn/" + res.current.weather[0].icon + "@2x.png"
             var weatherIcon = $("<img>");
