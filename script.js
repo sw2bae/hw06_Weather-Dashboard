@@ -122,7 +122,7 @@ function displayWeather(cityInput) {
                 var forecastDate = (forecastDt.getMonth() + 1 + "/" + forecastDt.getDate() + "/" + forecastDt.getFullYear());
 
                 $("<div>").text(forecastDate)
-                    .addClass("border bg-primary col-2 mr-4 rounded shadow-lg text-white")
+                    .addClass("border bg-primary col-sm-2 mr-4 rounded shadow-lg text-white")
                     .attr("id", i)
                     .appendTo($("#forecast"));
 
