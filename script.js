@@ -11,7 +11,8 @@ function renderBtn() {
         var cityBtn = $("<button>");
         cityBtn
             .addClass("nav-link active")
-            .attr("id", cityArray[i])
+            .attr("id","city-Btn")
+            .attr("val",cityArray[i])
             .text(cityArray[i])
             .appendTo($("#v-pills-tab"));
     }
@@ -19,12 +20,21 @@ function renderBtn() {
 
 $("#submit").on("click", function (event) {
     event.preventDefault();
-
-    displayWeather();
+    var cityInput = $("#search").val().trim();
+    displayWeather(cityInput);
 });
 
-function displayWeather() {
-    var cityInput = $("#search").val().trim();
+$(document).on("click","#city-Btn", practice);
+
+function practice(event){
+    event.preventDefault();
+    var btnInput = $(this).attr("val");
+    displayWeather(btnInput);
+
+}
+
+function displayWeather(cityInput) {
+    
     var apiKey = "443955fb6787f379caecf22f8c6f2f2e";
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&units=imperial&appid=" + apiKey;
 
@@ -34,7 +44,6 @@ function displayWeather() {
         method: 'GET'
 
     }).then(function (res) {
-        console.log(res);
 
         var city = res.name;
 
@@ -56,8 +65,6 @@ function displayWeather() {
             method: 'GET'
 
         }).then(function (res) {
-
-            console.log(res);
 
             var cityInfo = $("<h1>");
             var iconURL = "http://openweathermap.org/img/wn/" + res.current.weather[0].icon + "@2x.png"
