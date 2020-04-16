@@ -1,13 +1,17 @@
-var cityArray = [];
+var cityArray = JSON.parse(localStorage.getItem("data"));
 
+if (cityArray==null){
+    var cityArray = [];
+}else{
+    displayWeather(cityArray[0]);
+}
 
 function renderBtn() {
 
     $("#v-pills-tab").empty();
 
-
     for (var i = 0; i < cityArray.length; i++) {
-
+        
         var cityBtn = $("<button>");
         cityBtn
             .addClass("nav-link active")
@@ -20,8 +24,8 @@ function renderBtn() {
 
 $("#submit").on("click", function (event) {
     event.preventDefault();
-    var cityInput = $("#search").val().trim();
-    displayWeather(cityInput);
+    var userInput = $("#search").val().trim();
+    displayWeather(userInput);
 });
 
 $(document).on("click","#city-Btn", practice);
@@ -49,6 +53,7 @@ function displayWeather(cityInput) {
 
         cityArray.unshift(city);
         cityArray = Array.from(new Set(cityArray));
+        localStorage.setItem("data",JSON.stringify(cityArray));
 
         renderBtn();
         $(".tab-content").empty();
