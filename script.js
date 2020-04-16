@@ -1,8 +1,8 @@
 var cityArray = JSON.parse(localStorage.getItem("data"));
 
-if (cityArray==null){
+if (cityArray == null) {
     var cityArray = [];
-}else{
+} else {
     displayWeather(cityArray[0]);
 }
 
@@ -11,12 +11,12 @@ function renderBtn() {
     $("#v-pills-tab").empty();
 
     for (var i = 0; i < cityArray.length; i++) {
-        
+
         var cityBtn = $("<button>");
         cityBtn
             .addClass("nav-link active")
-            .attr("id","city-Btn")
-            .attr("val",cityArray[i])
+            .attr("id", "city-Btn")
+            .attr("val", cityArray[i])
             .text(cityArray[i])
             .appendTo($("#v-pills-tab"));
     }
@@ -28,9 +28,9 @@ $("#submit").on("click", function (event) {
     displayWeather(userInput);
 });
 
-$(document).on("click","#city-Btn", practice);
+$(document).on("click", "#city-Btn", practice);
 
-function practice(event){
+function practice(event) {
     event.preventDefault();
     var btnInput = $(this).attr("val");
     displayWeather(btnInput);
@@ -38,7 +38,7 @@ function practice(event){
 }
 
 function displayWeather(cityInput) {
-    
+
     var apiKey = "443955fb6787f379caecf22f8c6f2f2e";
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&units=imperial&appid=" + apiKey;
 
@@ -53,7 +53,7 @@ function displayWeather(cityInput) {
 
         cityArray.unshift(city);
         cityArray = Array.from(new Set(cityArray));
-        localStorage.setItem("data",JSON.stringify(cityArray));
+        localStorage.setItem("data", JSON.stringify(cityArray));
 
         renderBtn();
         $(".tab-content").empty();
@@ -95,21 +95,21 @@ function displayWeather(cityInput) {
                 .appendTo($(".tab-content"));
 
             var uvIndex = $("<p>");
-            
+
             uvIndex.text("UV Index : ")
                 .appendTo($(".tab-content"));
             $("<span>").text(res.current.uvi)
-                    .attr("id","uv")
-                    .appendTo(uvIndex);
+                .attr("id", "uv")
+                .appendTo(uvIndex);
 
-            if (res.current.uvi >=8){
+            if (res.current.uvi >= 8) {
                 $("#uv").addClass("rounded text-white bg-danger");
-            }else if (res.current.uvi<=5){
+            } else if (res.current.uvi <= 5) {
                 $("#uv").addClass("rounded text-white bg-success");
-            }else{
+            } else {
                 $("#uv").addClass("rounded text-white bg-warning");
             }
-        
+
 
             $("<hr>").appendTo($(".tab-content"));
             $("<h4>").text("5-Day Forecast : ")
